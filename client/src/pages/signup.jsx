@@ -2,14 +2,13 @@ import react from 'react'
 import Navbar from '../components/navbar';
 import { Link } from 'react-router-dom';
 
-
-const Login = () => {
+const SignUp = () => {
     return (
         <>
             <Navbar />
-            <div className="flex items-center justify-center mt-4">
-                <div className="w-full max-w-md p-8 bg-teal-100 rounded-lg shadow-xl">
-                    <h2 className="text-2xl font-semibold text-center mb-6">Login to Your Account</h2>
+            <div className="flex items-center justify-center mb-4">
+                <div className="w-full max-w-md p-6 bg-teal-100 rounded-lg shadow-xl">
+                    <h2 className="text-2xl font-semibold text-center mb-6">Create Your Account</h2>
                     <form>
                         <div className="mb-4">
                             <label className="block text-gray-700 mb-2" htmlFor="email">Email</label>
@@ -20,7 +19,7 @@ const Login = () => {
                                 placeholder="Enter your email"
                             />
                         </div>
-                        <div className="mb-1">
+                        <div className="mb-4">
                             <label className="block text-gray-700 mb-2" htmlFor="password">Password</label>
                             <input
                                 type="password"
@@ -29,18 +28,24 @@ const Login = () => {
                                 placeholder="Enter your password"
                             />
                         </div>
-                        <p className="text-center text-gray-600 p-2">
-                            Forgot your password? <a href="#" className="text-teal-600 hover:underline">Reset it</a>
-                        </p>
+                        <div className="mb-4">
+                            <label className="block text-gray-700 mb-2" htmlFor="confirmPassword">Confirm Password</label>
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-teal-300"
+                                placeholder="Confirm your password"
+                            />
+                        </div>
                         <button
                             type="submit"
                             className="w-full bg-teal-600 text-white py-2 rounded-lg hover:bg-teal-700 transition-colors font-semibold"
                         >
-                            Login
+                            Sign Up
                         </button>
                     </form>
                     <p className="text-center text-gray-600 mt-4">
-                        Don't have an account? <Link to="/signup" className="text-teal-600 hover:underline">Sign up</Link>
+                        Already have an account? <Link to="/login" className="text-teal-600 hover:underline">Login</Link>
                     </p>
                 </div>
             </div>
@@ -48,4 +53,5 @@ const Login = () => {
     )
 }
 
-export default Login;
+
+export default SignUp;

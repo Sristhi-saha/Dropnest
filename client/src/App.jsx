@@ -5,6 +5,7 @@ import { Routes, Route } from 'react-router-dom'
 import AllFiles from './pages/allFiles'
 import Login from './pages/login'
 import Footer from './components/footer'
+import SignUp from './pages/signup'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path='/upload' element={<FileUpload />} />
         <Route path="/allfiles" element={<AllFiles />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<SignUp />} />
       </Routes>
 
     </>
