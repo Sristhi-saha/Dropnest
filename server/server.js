@@ -1,24 +1,30 @@
+const dotenv = require('dotenv');
+dotenv.config(); // ✅ Load env variables first
+
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const authrouter = require('./route/auth-route');
 const connectedToDb = require('./database/db');
 
+const app = express();
 
-const app = express();//initialize express app
-dotenv.config();//configure dotenv to use .env file
+// Middlewares
+app.use(express.json());
+app.use(cookieParser());
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true
+}));
+app.get('/',(req,res)=>res.send('api work successfully'))
+app.use('/api/auth', authrouter);
 
-//middelwares
-app.use(express.json());//to parse json data
-app.use(cookieParser());//to parse cookies
-app.use(cors());//to use cors
-//database connection
-
+// Database connection
 connectedToDb();
 
 const port = process.env.PORT || 4000;
 
-app.listen(port,()=>{
-    console.log('server is running on the port!!!!');
-})
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
