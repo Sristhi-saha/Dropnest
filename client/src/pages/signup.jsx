@@ -16,6 +16,7 @@ const SignUp = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    console.log(email,password)
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
@@ -27,7 +28,8 @@ const SignUp = () => {
                 alert('please check password!!')
                 return
             }
-            const { data } = await axios.post(backend_url + 'auth/login', { email, password })
+            const { data } = await axios.post(backend_url + 'auth/register', { email, password })
+
 
             console.log(data);
 
@@ -38,7 +40,7 @@ const SignUp = () => {
                 toast.success('login successfully')
                 navigate('/');
             } else {
-                toast.error(data.message);
+                toast.error(e.response?.data?.message || e.message);
             }
 
         } catch (e) {
