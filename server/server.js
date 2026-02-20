@@ -9,12 +9,13 @@ const authrouter = require('./route/auth-route');
 const connectedToDb = require('./database/db');
 
 const app = express();
+console.log(process.env.CLIENT_URL)
 
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: process.env.CLIENT_URL,
+    origin: "http://localhost:5173",
     credentials: true
 }));
 app.get('/',(req,res)=>res.send('api work successfully'))

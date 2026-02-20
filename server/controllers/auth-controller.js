@@ -33,10 +33,49 @@ const registerUser = async (req, res) => {
         });
 
         await transporter.sendMail({
-            from: `"Dropnest"<${process.env.EMAIL_USER}>`,
+            from: `"Dropnest Team" <${process.env.EMAIL_USER}>`,
             to: email,
-            subject: "Welcome to Dropnest",
-            text: `Welcome! Your account has been created using ${email}`
+            subject: "🎉 Welcome to Dropnest!",
+            text: `
+Welcome to Dropnest!
+
+Hi there,
+
+Your account has been successfully created using this email: ${email}
+
+You can now explore products, manage your orders, and enjoy seamless shopping with us.
+
+If you did not create this account, please contact our support team immediately.
+
+Thank you,
+The Dropnest Team
+  `,
+            html: `
+  <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 8px;">
+    <h2 style="color: #111;">🎉 Welcome to Dropnest!</h2>
+    <p>Hi there,</p>
+    <p>Your account has been successfully created using:</p>
+    <p style="font-weight: bold; color: #333;">${email}</p>
+
+    <p>You can now explore products, manage your orders, and enjoy seamless shopping with us.</p>
+
+    <a href="https://yourwebsite.com" 
+       style="display: inline-block; margin-top: 15px; padding: 10px 20px; background-color: #000; color: #fff; text-decoration: none; border-radius: 5px;">
+       Visit Dropnest
+    </a>
+
+    <hr style="margin: 20px 0;" />
+
+    <p style="font-size: 12px; color: #777;">
+      If you did not create this account, please contact our support team immediately.
+    </p>
+
+    <p style="font-size: 14px;">
+      Regards,<br/>
+      <strong>Dropnest Team</strong>
+    </p>
+  </div>
+  `
         });
 
         res.status(200).json({ success: true, message: 'User registered successfully', token });
@@ -49,9 +88,9 @@ const registerUser = async (req, res) => {
 // Login
 const loginUSer = async (req, res) => {
     try {
-        const { username, email, password } = req.body; // ✅ email added
+        const { email, password } = req.body; // ✅ email added
 
-        const findUser = await userModel.findOne({ $or: [{ username }, { email }] });
+        const findUser = await userModel.findOne({email});
         if (!findUser) {
             return res.status(400).json({ success: false, message: 'User not found' });
         }
@@ -62,6 +101,60 @@ const loginUSer = async (req, res) => {
         }
 
         const token = jwt.sign({ id: findUser._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        await transporter.sendMail({
+            from: `"Dropnest Security" <${process.env.EMAIL_USER}>`,
+            to: email,
+            subject: "🔐 New Login to Your Dropnest Account",
+            text: `
+Hi,
+
+We noticed a new login to your Dropnest account.
+
+Email: ${email}
+Time: ${new Date().toLocaleString()}
+
+If this was you, no action is needed.
+
+If you did NOT log in, please reset your password immediately.
+
+Stay secure,
+Dropnest Team
+  `,
+            html: `
+  <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 8px;">
+    
+    <h2 style="color: #111;">🔐 New Login Detected</h2>
+    
+    <p>Hello,</p>
+    
+    <p>We noticed a new login to your <strong>Dropnest</strong> account.</p>
+    
+    <p><strong>Email:</strong> ${email}</p>
+    <p><strong>Time:</strong> ${new Date().toLocaleString()}</p>
+
+    <p>If this was you, you can safely ignore this email.</p>
+
+    <p>If you did <strong>not</strong> log in, we recommend resetting your password immediately.</p>
+
+    <a href="https://yourwebsite.com/forgot-password" 
+       style="display: inline-block; margin-top: 15px; padding: 10px 20px; background-color: #d9534f; color: #fff; text-decoration: none; border-radius: 5px;">
+       Reset Password
+    </a>
+
+    <hr style="margin: 20px 0;" />
+
+    <p style="font-size: 12px; color: #777;">
+      For security reasons, please do not share your login details with anyone.
+    </p>
+
+    <p>
+      Regards,<br/>
+      <strong>Dropnest Security Team</strong>
+    </p>
+
+  </div>
+  `
+        });
 
         res.cookie('token', token, {
             httpOnly: true,
@@ -110,10 +203,56 @@ const sendrestPasswordOtp = async (req, res) => {
         await findUser.save();
 
         await transporter.sendMail({
-            from: `"Dropnest"<${process.env.EMAIL_USER}>`,
+            from: `"Dropnest Support" <${process.env.EMAIL_USER}>`,
             to: findUser.email,
-            subject: 'Reset Password OTP',
-            text: `Your Reset Password OTP is: ${otp}`
+            subject: "🔐 Reset Your Password - OTP Verification",
+
+            text: `
+Hello,
+
+We received a request to reset your Dropnest account password.
+
+Your One-Time Password (OTP) is: ${otp}
+
+This OTP is valid for 10 minutes.
+
+If you did not request a password reset, please ignore this email or contact support immediately.
+
+Regards,
+Dropnest Support Team
+  `,
+
+            html: `
+  <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 8px;">
+    
+    <h2 style="color: #111;">🔐 Password Reset Request</h2>
+    
+    <p>Hello,</p>
+    
+    <p>We received a request to reset your <strong>Dropnest</strong> account password.</p>
+    
+    <p style="margin: 20px 0;">Your One-Time Password (OTP) is:</p>
+    
+    <div style="font-size: 28px; font-weight: bold; letter-spacing: 5px; background: #f4f4f4; padding: 10px; text-align: center; border-radius: 6px;">
+      ${otp}
+    </div>
+
+    <p style="margin-top: 20px;">This OTP is valid for <strong>10 minutes</strong>.</p>
+
+    <p>If you did not request this password reset, please ignore this email or contact support immediately.</p>
+
+    <hr style="margin: 20px 0;" />
+
+    <p style="font-size: 12px; color: #777;">
+      For security reasons, do not share this OTP with anyone.
+    </p>
+
+    <p>
+      Regards,<br/>
+      <strong>Dropnest Support Team</strong>
+    </p>
+  </div>
+  `
         });
 
         return res.status(200).json({ success: true, message: 'OTP sent successfully' });
@@ -148,6 +287,53 @@ const resetPassword = async (req, res) => {
         finduser.otp = null;
         finduser.otpExpiry = null;
         await finduser.save();
+
+        await transporter.sendMail({
+            from: `"Dropnest Support" <${process.env.EMAIL_USER}>`,
+            to: findUser.email,
+            subject: "✅ Your Password Has Been Reset Successfully",
+
+            text: `
+Hello,
+
+This is a confirmation that your Dropnest account password has been successfully reset.
+
+If you made this change, no further action is required.
+
+If you did NOT reset your password, please contact our support team immediately as your account may be at risk.
+
+Regards,
+Dropnest Support Team
+  `,
+
+            html: `
+  <div style="font-family: Arial, sans-serif; max-width: 600px; margin:auto; padding:20px; border:1px solid #eee; border-radius:8px;">
+    
+    <h2 style="color: green;">✅ Password Reset Successful</h2>
+
+    <p>Hello,</p>
+
+    <p>Your <strong>Dropnest</strong> account password has been successfully updated.</p>
+
+    <p>If you made this change, you can safely ignore this email.</p>
+
+    <p style="color: red;">
+      If you did NOT reset your password, please contact our support team immediately.
+    </p>
+
+    <hr style="margin:20px 0;" />
+
+    <p style="font-size:12px; color:#777;">
+      For security reasons, we recommend keeping your password confidential and not sharing it with anyone.
+    </p>
+
+    <p>
+      Regards,<br/>
+      <strong>Dropnest Support Team</strong>
+    </p>
+  </div>
+  `
+        });
 
         res.status(200).json({ success: true, message: 'Password reset successfully' });
 
