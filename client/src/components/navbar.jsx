@@ -1,7 +1,10 @@
-import react from 'react';
+import react, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { Appcontent } from '../context/appContent';
 
 const Navbar = ()=>{
+    const {isLoggedin} = useContext(Appcontent)
+    console.log(isLoggedin)
     return (
         <>
             <nav className='flex justify-between items-center' style={{"marginTop":"-18px"}}>
@@ -12,7 +15,7 @@ const Navbar = ()=>{
                      <Link to='/' className='font-bold text-gray-700 hover:text-gray-500'>Home</Link>
                     <Link to='/upload' className='font-bold text-gray-700 hover:text-gray-500'>Upload</Link>
                     <Link to='/allfiles' className="font-bold text-gray-700 hover:text-gray-500">All Files</Link>
-                    <Link to='/login' className='border border-gray-700 rounded-4xl px-6 py-1 cursor-pointer'>Login</Link>
+                    {isLoggedin?<Link to='/login' className='border border-gray-700 rounded-4xl px-6 py-1 cursor-pointer'>Logout</Link>:<Link to='/login' className='border border-gray-700 rounded-4xl px-6 py-1 cursor-pointer'>Login</Link>}
                 </div>
             </nav>
         </>
