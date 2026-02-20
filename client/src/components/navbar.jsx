@@ -1,10 +1,26 @@
 import react, { useContext } from 'react';
+import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { Appcontent } from '../context/appContent';
+import axios from 'axios';
 
 const Navbar = ()=>{
-    const {isLoggedin} = useContext(Appcontent)
-    console.log(isLoggedin)
+    const backend_url = import.meta.env.VITE_BACKEND_URL;
+    const {isLoggedin,userData,
+        setIsLoggedin,
+        setUserData} = useContext(Appcontent)
+    console.log(isLoggedin,userData);
+    const logout = async()=>{
+        try{
+            axios.defaults.withCredentials=true;
+            const {data} = await axios.post(backend_url+'auth/logout');
+            localStorage.removeItem("token");
+            console.log(data);
+            setIsLoggedin(false);
+        }catch(e){
+            toast.error(e.message)
+        }
+    }
     return (
         <>
             <nav className='flex justify-between items-center' style={{"marginTop":"-18px"}}>
@@ -15,7 +31,7 @@ const Navbar = ()=>{
                      <Link to='/' className='font-bold text-gray-700 hover:text-gray-500'>Home</Link>
                     <Link to='/upload' className='font-bold text-gray-700 hover:text-gray-500'>Upload</Link>
                     <Link to='/allfiles' className="font-bold text-gray-700 hover:text-gray-500">All Files</Link>
-                    {isLoggedin?<Link to='/login' className='border border-gray-700 rounded-4xl px-6 py-1 cursor-pointer'>Logout</Link>:<Link to='/login' className='border border-gray-700 rounded-4xl px-6 py-1 cursor-pointer'>Login</Link>}
+                    {isLoggedin?<Link onClick={logout} className='border border-gray-700 rounded-4xl px-6 py-1 cursor-pointer'>Logout</Link>:<Link to='/login' className='border border-gray-700 rounded-4xl px-6 py-1 cursor-pointer'>Login</Link>}
                 </div>
             </nav>
         </>

@@ -32,6 +32,8 @@ const SignUp = () => {
             console.log(data);
 
             if (data.success) {
+                localStorage.setItem('token',data.token);
+                setUserData(true)
                 setIsLoggedin(true)
                 toast.success('login successfully')
                 navigate('/');
