@@ -1,12 +1,14 @@
 import react, { useContext, useState } from 'react'
 import Navbar from '../components/navbar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Appcontent } from '../context/appContent';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
 
 const Login = () => {
+
+    const naviagte = useNavigate()
 
     const {isLoggedin,userData,
         setIsLoggedin,
@@ -24,6 +26,8 @@ const Login = () => {
         try{
             const {data} = await axios.post(backend_url + 'auth/login', { email, password })
             console.log(data);
+            setIsLoggedin(true);
+            naviagte('/')
         }catch(e){
             toast.error(e)
         }
