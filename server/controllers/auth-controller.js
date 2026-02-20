@@ -6,13 +6,13 @@ const transporter = require('../config/nodemail');
 // Register
 const registerUser = async (req, res) => {
     try {
-        const { username, email, password } = req.body;
+        const {email, password } = req.body;
 
-        if (!username || !email || !password) {
+        if ( !email || !password) {
             return res.status(400).json({ success: false, message: "Please provide all the details" });
         }
 
-        const finduser = await userModel.findOne({ $or: [{ username }, { email }] });
+        const finduser = await userModel.findOne({email });
         if (finduser) {
             return res.status(400).json({ success: false, message: "User already exists with this username or email" });
         }
@@ -20,7 +20,7 @@ const registerUser = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        const newUser = new userModel({ username, email, password: hashedPassword });
+        const newUser = new userModel({ email, password: hashedPassword });
         await newUser.save(); // ✅ await added
 
         const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
@@ -81,8 +81,9 @@ The Dropnest Team
         res.status(200).json({ success: true, message: 'User registered successfully', token });
 
     } catch (e) {
-        res.status(500).json({ success: false, message: e.message });
-    }
+    console.log("REGISTER ERROR:", e);
+    res.status(500).json({ success: false, message: e.message });
+}
 };
 
 // Login
