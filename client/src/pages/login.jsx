@@ -9,7 +9,6 @@ import { toast } from 'react-toastify';
 const Login = () => {
 
     const naviagte = useNavigate()
-
     const {isLoggedin,userData,
         setIsLoggedin,
         setUserData} = useContext(Appcontent);
