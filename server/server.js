@@ -7,6 +7,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const authrouter = require('./route/auth-route');
 const connectedToDb = require('./database/db');
+const fileRouter = require('./route/file-upload-route');
 
 const app = express();
 console.log(process.env.CLIENT_URL)
@@ -20,7 +21,7 @@ app.use(cors({
 }));
 app.get('/',(req,res)=>res.send('api work successfully'))
 app.use('/api/auth', authrouter);
-
+app.use('/api',fileRouter);
 // Database connection
 connectedToDb();
 
