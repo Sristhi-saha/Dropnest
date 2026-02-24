@@ -1,6 +1,22 @@
 const file = require('../model/file');
 const cloudinary = require('../config/cloudinary-config');
 
+const fetchAllFiles = async(req,res)=>{
+  try{
+    const files = (await file.find()).toSorted({createdAt:-1});
+    res.status(200).json({
+      success:true,
+      data:files,
+      count:files.length
+    })
+  }catch(e){
+    res.status(500).json({
+      success:false,
+      message:e.message
+    })
+  }
+}
+
 const uploadFile = async(req,res)=>{
     try{
         //check if file exists 
@@ -70,4 +86,4 @@ const deleteFile = async (req, res) => {
   }
 };
 
-module.exports = {uploadFile,deleteFile}
+module.exports = {uploadFile,deleteFile,fetchAllFiles}
