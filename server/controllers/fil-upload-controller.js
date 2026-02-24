@@ -3,7 +3,7 @@ const cloudinary = require('../config/cloudinary-config');
 
 const fetchAllFiles = async(req,res)=>{
   try{
-    const files = (await file.find()).toSorted({createdAt:-1});
+    const files = await file.find().sort({createdAt:-1});
     res.status(200).json({
       success:true,
       data:files,
