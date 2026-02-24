@@ -16,6 +16,7 @@ const Login = () => {
     console.log(isLoggedin);
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
+    console.log(email,password)
 
     const backend_url=import.meta.env.VITE_BACKEND_URL;
 
@@ -26,6 +27,7 @@ const Login = () => {
             const {data} = await axios.post(backend_url + 'auth/login', { email, password })
             console.log(data);
             setIsLoggedin(true);
+            localStorage.setItem("token",data.token)
             naviagte('/')
         }catch(e){
             toast.error(e)

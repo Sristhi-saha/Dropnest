@@ -1,6 +1,6 @@
 import react, { useContext } from 'react';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Appcontent } from '../context/appContent';
 import axios from 'axios';
 
@@ -21,11 +21,12 @@ const Navbar = ()=>{
             toast.error(e.message)
         }
     }
+    const navigate = useNavigate()
     return (
         <>
             <nav className='flex justify-between items-center' style={{"marginTop":"-18px"}}>
                 <div className="logo">
-                    <img src="/logoo.png" alt="" height="100" width="140" className='rounded-full' />
+                    <img src="/logoo.png" alt="" height="100" width="140" className='rounded-full' onClick={()=>navigate('/')} />
                 </div>
                 <div className="flex gap-4 p-4 cursor-pointer items-center">
                      <Link to='/' className='font-bold text-gray-700 hover:text-gray-500'>Home</Link>

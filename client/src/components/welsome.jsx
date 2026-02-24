@@ -1,13 +1,29 @@
 import react from 'react'
+import { useContext } from 'react';
+import { Appcontent } from '../context/appContent';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Welcome = () => {
+
+    const {setIsLoggedin} = useContext(Appcontent);
+    const navigate = useNavigate();
+
+    const handlebutton = ()=>{
+        if(setIsLoggedin){
+            navigate('/upload')
+        }else{
+            toast.error('login first!!')
+        }
+    }
+
     return (
         <>
             <div className="flex flex-col items-center justify-center p-10">
                 <h1 className=' flex items-center justify-center text-6xl font-bold'>Welcome To  <span className='text-teal-600 pl-2'>  Dropnest</span></h1>
                 <p className="text-xl text-gray-600 text-center tracking-wider p-4">Your secure, simple, and elegant file management platform. Upload files with ease, organize them effortlessly, and share them instantly.</p>
                 <div className="pt-4">
-                    <button className='bg-teal-600 text-white px-8 py-3 hover:bg-teal-800 rounded-2xl font-semibold text-xl'>Start Uploading Now</button>
+                    <button onClick={()=>handlebutton()} className='bg-teal-600 text-white px-8 py-3 hover:bg-teal-800 rounded-2xl font-semibold text-xl'>Start Uploading Now</button>
                 </div>
 
                 <div className="mt-10">

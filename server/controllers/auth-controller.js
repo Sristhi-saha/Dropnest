@@ -91,7 +91,7 @@ const loginUSer = async (req, res) => {
     try {
         const { email, password } = req.body; // ✅ email added
 
-        const findUser = await userModel.findOne({email});
+        const findUser = await userModel.findOne({email:email.toLowerCase().trim()});
         if (!findUser) {
             return res.status(400).json({ success: false, message: 'User not found' });
         }
