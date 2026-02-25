@@ -11,7 +11,7 @@ const AllFiles = () => {
 
     const getAllFiles = async () => {
         try {
-            const all = await axios.get('http://localhost:4000/api/fetch-all-files', {
+            const all = await axios.get('https://dropnestwebapp.onrender.com/api/fetch-all-files', {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setFiles(all.data.data);
@@ -32,7 +32,7 @@ const AllFiles = () => {
 
     const deleteFile = async (fileId) => {
         try {
-            const data=await axios.delete(`http://localhost:4000/api/delete-file/${fileId}`, {
+            const data=await axios.delete(`https://dropnestwebapp.onrender.com/api/delete-file/${fileId}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             console.log(data)
@@ -111,7 +111,7 @@ const AllFiles = () => {
                                             
                                             <button
                                                 onClick={() => deleteFile(file._id)}
-                                                className="flex items-center gap-1.5 bg-red-50 hover:bg-red-600 text-red-500 hover:text-white text-xs font-semibold px-3 py-2 rounded-lg transition-colors"
+                                                className="cursor-pointer flex items-center gap-1.5 bg-red-50 hover:bg-red-600 text-red-500 hover:text-white text-xs font-semibold px-3 py-2 rounded-lg transition-colors"
                                             >
                                                 <Trash2 size={14} />
                                                 Delete

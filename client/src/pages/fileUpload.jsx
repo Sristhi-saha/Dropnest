@@ -39,7 +39,7 @@ const FileUpload = () => {
     try {
       setUploading(true);
       const { data } = await axios.post(
-        `http://localhost:4000/api/upload-file`,
+        `https://dropnestwebapp.onrender.com/api/upload-file`,
         formData,
         {
           headers: {
