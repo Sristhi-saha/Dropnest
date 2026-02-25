@@ -21,7 +21,7 @@ const Login = () => {
 
     try {
       setLoading(true);
-      const { data } = await axios.post(backend_url + "auth/login", {
+      const { data } = await axios.post("https://dropnestwebapp.onrender.com/api/auth/login", {
         email,
         password,
       });

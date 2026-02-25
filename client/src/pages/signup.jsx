@@ -15,7 +15,7 @@ const SignUp = () => {
     const navigate = useNavigate();
     const [confirmPassword, setConfirmPassword] = useState("");
     const [email, setEmail] = useState("");
-    const [loading,setLoading] = useState(false)
+    const [loading,setLoading] = useState("");
     const [password, setPassword] = useState("");
     console.log(email,password)
 
@@ -29,7 +29,7 @@ const SignUp = () => {
                 alert('please check password!!')
                 return
             }
-            const { data } = await axios.post(backend_url + 'auth/register', { email, password })
+            const { data } = await axios.post('https://dropnestwebapp.onrender.com/api/auth/register', { email, password })
 
 
             console.log(data);
