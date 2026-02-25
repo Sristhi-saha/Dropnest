@@ -23,10 +23,14 @@ app.get('/',(req,res)=>res.send('api work successfully'))
 app.use('/api/auth', authrouter);
 app.use('/api',fileRouter);
 // Database connection
-connectedToDb();
-
 const port = process.env.PORT || 4000;
 
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
+connectedToDb()
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Database connection failed:", err);
+  });
