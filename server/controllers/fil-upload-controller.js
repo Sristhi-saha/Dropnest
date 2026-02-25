@@ -3,7 +3,9 @@ const cloudinary = require('../config/cloudinary-config');
 
 const fetchAllFiles = async(req,res)=>{
   try{
-    const files = await file.find().sort({createdAt:-1});
+    const files = await file.find({ uploadedBy: req.userId });
+    console.log('files found:', files.length);
+    console.log(req.userId)
     res.status(200).json({
       success:true,
       data:files,
@@ -19,6 +21,13 @@ const fetchAllFiles = async(req,res)=>{
 
 const uploadFile = async(req,res)=>{
     try{
+
+        if(req.MulterError){
+          return res.status(400).json({
+                success: false,
+                message: req.MulterError.message,
+            });
+        }
         //check if file exists 
         if(!req.file){
             return res.status(400).json({
@@ -37,7 +46,8 @@ const uploadFile = async(req,res)=>{
         const newFile = await file.create({
             fileName:req.file.originalname,
             public_id:result.public_id,
-            url:result.secure_url
+            url:result.secure_url,
+            uploadedBy:req.userId
         })
 
         res.status(201).json({

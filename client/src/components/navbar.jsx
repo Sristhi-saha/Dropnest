@@ -30,8 +30,8 @@ const Navbar = ()=>{
                 </div>
                 <div className="flex gap-4 p-4 cursor-pointer items-center">
                      <Link to='/' className='font-bold text-gray-700 hover:text-gray-500'>Home</Link>
-                    <Link to='/upload' className='font-bold text-gray-700 hover:text-gray-500'>Upload</Link>
-                    <Link to='/allfiles' className="font-bold text-gray-700 hover:text-gray-500">All Files</Link>
+                    {isLoggedin?<Link to='/upload' className="font-bold text-gray-700 hover:text-gray-500">Upload</Link>:<span className='font-bold text-gray-400 cursor-not-allowed pointer-events-none'> Upload</span>}
+                    {isLoggedin?<Link to='/allfiles' className="font-bold text-gray-700 hover:text-gray-500">All Files</Link>:<span className='font-bold text-gray-400 cursor-not-allowed pointer-events-none'> All Files</span>}
                     {isLoggedin?<Link onClick={logout} className='border border-gray-700 rounded-4xl px-6 py-1 cursor-pointer'>Logout</Link>:<Link to='/login' className='border border-gray-700 rounded-4xl px-6 py-1 cursor-pointer'>Login</Link>}
                 </div>
             </nav>

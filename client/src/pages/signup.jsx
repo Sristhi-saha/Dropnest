@@ -15,6 +15,7 @@ const SignUp = () => {
     const navigate = useNavigate();
     const [confirmPassword, setConfirmPassword] = useState("");
     const [email, setEmail] = useState("");
+    const [loading,setLoading] = useState(false)
     const [password, setPassword] = useState("");
     console.log(email,password)
 
@@ -51,52 +52,76 @@ const SignUp = () => {
     return (
         <>
             <Navbar />
-            <div className="flex items-center justify-center mb-4" style={{ marginTop: "-14px" }}>
-                <div className="w-full max-w-md p-6 bg-teal-100 rounded-lg shadow-2xl">
-                    <h2 className="text-2xl font-semibold text-center mb-6">Create Your Account</h2>
-                    <form onSubmit={onSubmitHandler}>
-                        <div className="mb-4">
-                            <label className="block text-gray-700 mb-2" htmlFor="email">Email</label>
-                            <input
-                                onChange={(e) => setEmail(e.target.value)}
-                                type="email"
-                                id="email"
-                                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-teal-300"
-                                placeholder="Enter your email"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-gray-700 mb-2" htmlFor="password">Password</label>
-                            <input
-                                onChange={(e) => setPassword(e.target.value)}
-                                type="password"
-                                id="password"
-                                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-teal-300"
-                                placeholder="Enter your password"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-gray-700 mb-2" htmlFor="confirmPassword">Confirm Password</label>
-                            <input
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                type="password"
-                                id="confirmPassword"
-                                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-teal-300"
-                                placeholder="Confirm your password"
-                            />
-                        </div>
-                        <button
-                            type="submit"
-                            className="w-full bg-teal-600 text-white py-2 rounded-lg hover:bg-teal-700 transition-colors font-semibold"
-                        >
-                            Sign Up
-                        </button>
-                    </form>
-                    <p className="text-center text-gray-600 mt-4">
-                        Already have an account? <Link to="/login" className="text-teal-600 hover:underline">Login</Link>
-                    </p>
-                </div>
-            </div>
+            <div className="login-root">
+  <div className="login-container">
+    <div className="login-card">
+      <h2 className="login-title">
+        Create <span>Account</span>
+      </h2>
+      <p className="login-subtitle">Join us and store your files securely</p>
+
+      <form onSubmit={onSubmitHandler}>
+        <div className="login-field">
+          <label className="login-label" htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            className="login-input"
+            placeholder="you@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="login-field">
+          <label className="login-label" htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            className="login-input"
+            placeholder="Create a password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="login-field">
+          <label className="login-label" htmlFor="confirmPassword">Confirm Password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            className="login-input"
+            placeholder="Repeat your password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+        </div>
+
+        <button type="submit" className="login-btn" disabled={loading}>
+          {loading ? (
+            <><div className="login-spinner" /> Creating account...</>
+          ) : (
+            "Create Account"
+          )}
+        </button>
+      </form>
+
+      <div className="login-divider">
+        <div className="login-divider-line" />
+        <span>or</span>
+        <div className="login-divider-line" />
+      </div>
+
+      <p className="login-signup">
+        Already have an account?{" "}
+        <Link to="/login">Sign in</Link>
+      </p>
+    </div>
+  </div>
+</div>
         </>
     )
 }
