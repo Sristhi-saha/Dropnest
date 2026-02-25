@@ -16,7 +16,7 @@ console.log(process.env.CLIENT_URL)
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: ["https://dropnest.netlify.app/"],
+    origin: ["https://dropnest.netlify.app"],
     credentials: true
 }));
 app.get('/',(req,res)=>res.send('api work successfully'))
